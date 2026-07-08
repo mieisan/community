@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+ホーム
+{% endblock %}
+
+
+{% block content %}
+
+<h1>コミュニティサイト</h1>
+<nav>
+    <a href="/">ホーム</a> |
+    <a href="/create/">投稿する</a>
+</nav>
+
+<hr>
+
+{% if user.is_authenticated %}
+
+<p>
+ログイン中：
+<a href="/accounts/{{ user.username }}/">
+{{ user.username }}
+</a>
+</p>
+
+<form method="post" action="/accounts/logout/">
+    {% csrf_token %}
+    <button type="submit">
+        ログアウト
+    </button>
+</form>
+
+{% else %}
+
+<a href="/accounts/login/">ログイン</a>
+|
+<a href="/accounts/signup/">アカウント作成</a>
+
+{% endif %}
+
+
+<hr>
+
+
+{% for post in posts %}
+
+<div style="border:1px solid #ccc; padding:15px; margin-bottom:15px; border-radius:10px;">
+
+<h2>{{ post.title }}</h2>
+
+<p>
+投稿者：
+<a href="/accounts/{{ post.user.username }}/">
+{{ post.user.username }}
+</a>
+</p>
+
+{% if post.image %}
+<p>
+<img src="{{ post.image.url }}" width="300">
+</p>
+{% endif %}
+
+<p>
+{{ post.content }}
+</p>
+
+<p>
+投稿日：
+{{ post.created_at }}
+</p>
+
+<p>
+<a href="/accounts/{{ post.user.username }}/">
+プロフィールを見る
+</a>
+</p>
+
+</div>
+
+{% empty %}
+
+<p>投稿はありません</p>
+
+{% endfor %}
+{% endblock %}

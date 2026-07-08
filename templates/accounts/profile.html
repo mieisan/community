@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+プロフィール
+{% endblock %}
+
+
+{% block content %}
+
+<h1>{{ profile_user.username }}</h1>
+
+
+{% if profile.icon %}
+<img src="{{ profile.icon.url }}" width="150">
+{% else %}
+<p>アイコン未設定</p>
+{% endif %}
+
+
+<h2>自己紹介</h2>
+
+<p>
+{{ profile.bio|default:"自己紹介はありません" }}
+</p>
+
+
+<hr>
+
+
+<h2>投稿一覧</h2>
+
+{% for post in posts %}
+
+<div style="border:1px solid #ccc;padding:10px;margin-bottom:10px;">
+
+<h3>{{ post.title }}</h3>
+
+<p>{{ post.content }}</p>
+
+<p>
+投稿日：
+{{ post.created_at }}
+</p>
+
+</div>
+
+
+{% empty %}
+
+<p>投稿はありません</p>
+
+{% endfor %}
+{% endblock %}

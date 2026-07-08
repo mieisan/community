@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+
+<title>
+{% block title %}コミュニティサイト{% endblock %}
+</title>
+
+<style>
+body {
+    font-family: sans-serif;
+    margin: 20px;
+}
+
+nav {
+    padding: 10px;
+    background: #eeeeee;
+    margin-bottom: 20px;
+}
+
+nav a {
+    margin-right: 15px;
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: 220px 1fr 280px;
+    gap: 20px;
+}
+
+.left-sidebar,
+.right-sidebar {
+    background: #f5f5f5;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.left-sidebar a,
+.right-sidebar a {
+    display: block;
+    margin-bottom: 8px;
+    text-decoration: none;
+}
+
+.content {
+    min-width: 0;
+}
+
+.post {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+@media (max-width: 900px) {
+    .layout {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+    <a href="/">ホーム</a>
+
+    {% if user.is_authenticated %}
+        <a href="/posts/create/">投稿する</a>
+
+        <a href="{% url 'accounts:profile' user.username %}">
+            プロフィール
+        </a>
+
+        <form method="post" action="/accounts/logout/" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit">ログアウト</button>
+        </form>
+    {% else %}
+        <a href="/accounts/login/">ログイン</a>
+        <a href="{% url 'accounts:signup' %}">アカウント作成</a>
+    {% endif %}
+</nav>
+
+<div class="layout">
+
+    <aside class="left-sidebar">
+        <h3>リンク集</h3>
+
+        <a href="https://x.com/">Twitter / X</a>
+        <a href="{% url 'accounts:profile' user.username %}">マイページ</a>
+        <a href="/bbs/">掲示板</a>
+        <a href="/gallery/">ギャラリー</a>
+        <a href="/event/">イベント</a>
+        <a href="https://note.com/">note</a>
+
+        <hr>
+
+        <a href="https://github.com/">GitHub</a>
+    </aside>
+
+    <main class="content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <aside class="right-sidebar">
+        <h3>新着記事</h3>
+        {% for post in latest_posts %}
+            <a href="{% url 'posts:detail' post.id %}">
+                {{ post.title }}
+            </a>
+        {% empty %}
+            <p>まだ投稿がありません</p>
+        {% endfor %}
+
+        <hr>
+
+        <h3>アクセス数順</h3>
+        {% for post in popular_posts %}
+            <a href="{% url 'posts:detail' post.id %}">
+                {{ post.title }}（{{ post.views }}）
+            </a>
+        {% empty %}
+            <p>まだありません</p>
+        {% endfor %}
+
+        <hr>
+
+        <h3>いいね順</h3>
+        {% for post in liked_posts %}
+            <a href="{% url 'posts:detail' post.id %}">
+                {{ post.title }}（{{ post.like_count }}）
+            </a>
+        {% empty %}
+            <p>まだありません</p>
+        {% endfor %}
+    </aside>
+
+</div>
+
+</body>
+</html>
