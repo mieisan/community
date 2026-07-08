@@ -4,7 +4,17 @@
 {% block title %}
 プロフィール
 {% endblock %}
+{% if profile.icon %}
+    <img src="{{ profile.icon.url }}" width="120" height="120">
+{% else %}
+    <p>アイコン未設定</p>
+{% endif %}
 
+{% if request.user == profile.user %}
+    <p>
+        <a href="{% url 'accounts:edit_profile' %}">プロフィール編集</a>
+    </p>
+{% endif %}
 
 {% block content %}
 
@@ -31,7 +41,7 @@
 <h2>投稿一覧</h2>
 
 {% for post in posts %}
-
+<a href="{% url 'posts:create' %}">投稿する</a>
 <div style="border:1px solid #ccc;padding:10px;margin-bottom:10px;">
 
 <h3>{{ post.title }}</h3>

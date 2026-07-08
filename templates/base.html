@@ -73,10 +73,11 @@ nav a {
             プロフィール
         </a>
 
-        <form method="post" action="/accounts/logout/" style="display:inline;">
-            {% csrf_token %}
-            <button type="submit">ログアウト</button>
-        </form>
+    <form method="post" action="{% url 'accounts:logout' %}" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit">ログアウト</button>
+    </form>
+
     {% else %}
         <a href="/accounts/login/">ログイン</a>
         <a href="{% url 'accounts:signup' %}">アカウント作成</a>
@@ -89,7 +90,13 @@ nav a {
         <h3>リンク集</h3>
 
         <a href="https://x.com/">Twitter / X</a>
-        <a href="{% url 'accounts:profile' user.username %}">マイページ</a>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'accounts:profile' user.username %}">マイページ</a>
+        {% else %}
+            <a href="{% url 'accounts:login' %}">ログイン</a>
+        {% endif %}
+
         <a href="/bbs/">掲示板</a>
         <a href="/gallery/">ギャラリー</a>
         <a href="/event/">イベント</a>
@@ -99,7 +106,6 @@ nav a {
 
         <a href="https://github.com/">GitHub</a>
     </aside>
-
     <main class="content">
         {% block content %}
         {% endblock %}
@@ -120,7 +126,7 @@ nav a {
         <h3>アクセス数順</h3>
         {% for post in popular_posts %}
             <a href="{% url 'posts:detail' post.id %}">
-                {{ post.title }}（{{ post.views }}）
+            {{ post.title }}（{{ post.view_count }}）
             </a>
         {% empty %}
             <p>まだありません</p>
