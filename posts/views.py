@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Post
 from .forms import PostForm
 from django.contrib.auth.decorators import login_required
+from analytics.models import PostView
 
 # Create your views here.
 
