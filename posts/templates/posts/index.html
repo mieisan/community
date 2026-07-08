@@ -10,8 +10,8 @@
 
 <h1>コミュニティサイト</h1>
 <nav>
-    <a href="/">ホーム</a> |
-    <a href="/create/">投稿する</a>
+    <a href="/">ホーム</a>
+    <a href="{% url 'posts:create' %}">投稿する</a>
 </nav>
 
 <hr>
@@ -78,6 +78,27 @@
 </p>
 
 <p>
+いいね数：{{ post.likes.count }}
+</p>
+
+{% if user.is_authenticated %}
+<form method="post" action="{% url 'likes:toggle_like' post.id %}">
+    {% csrf_token %}
+    <button type="submit">いいね / 取り消し</button>
+</form>
+{% else %}
+<p>ログインするといいねできます。</p>
+{% endif %}
+
+<p>
+タグ：
+{% for tag in post.tags.all %}
+    <a href="/tags/{{ tag.slug }}/">#{{ tag.name }}</a>
+{% empty %}
+    タグなし
+{% endfor %}
+</p>
+
 投稿日：
 {{ post.created_at }}
 </p>

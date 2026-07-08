@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}
+ギャラリー
+{% endblock %}
+
+{% block content %}
+
+<h1>ギャラリー</h1>
+
+<div style="display:flex;flex-wrap:wrap;gap:20px;">
+
+{% for post in posts %}
+
+<div style="width:250px;">
+
+<a href="{% url 'posts:detail' post.id %}">
+
+<img
+src="{{ post.image.url }}"
+style="width:250px;height:250px;object-fit:cover;border-radius:10px;">
+
+</a>
+
+<p>{{ post.title }}</p>
+
+<p>{{ post.user.username }}</p>
+
+</div>
+
+{% empty %}
+
+<p>画像はまだありません。</p>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

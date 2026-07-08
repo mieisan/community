@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}
+掲示板
+{% endblock %}
+
+{% block content %}
+
+<h1>掲示板</h1>
+
+<p>
+<a href="{% url 'posts:board_create' %}">スレッド作成</a>
+</p>
+
+<hr>
+
+{% for thread in threads %}
+<div style="border:1px solid #ccc; padding:15px; margin-bottom:15px; border-radius:10px;">
+    <h2>
+        <a href="{% url 'posts:board_detail' thread.id %}">
+            {{ thread.title }}
+        </a>
+    </h2>
+
+    <p>投稿者：{{ thread.user.username }}</p>
+    <p>作成日：{{ thread.created_at }}</p>
+    <p>返信数：{{ thread.replies.count }}</p>
+</div>
+{% empty %}
+<p>スレッドはありません</p>
+{% endfor %}
+
+{% endblock %}

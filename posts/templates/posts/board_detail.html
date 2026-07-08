@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ thread.title }}
+{% endblock %}
+
+{% block content %}
+
+<h1>{{ thread.title }}</h1>
+
+<p>
+投稿者：{{ thread.user.username }}
+</p>
+
+<p>
+投稿日：{{ thread.created_at }}
+</p>
+
+<hr>
+
+<div style="padding:15px; border:1px solid #ccc; border-radius:8px;">
+    {{ thread.body|linebreaks }}
+</div>
+
+<hr>
+
+<h2>返信一覧</h2>
+
+{% for reply in replies %}
+
+<div style="border:1px solid #ddd; margin:10px 0; padding:10px; border-radius:8px;">
+
+<p>{{ reply.body|linebreaks }}</p>
+
+<p>
+投稿者：{{ reply.user.username }}　
+{{ reply.created_at }}
+</p>
+
+</div>
+
+{% empty %}
+
+<p>まだ返信はありません。</p>
+
+{% endfor %}
+
+<hr>
+
+{% if user.is_authenticated %}
+
+<h2>返信を書く</h2>
+
+<form method="post" action="{% url 'posts:reply_create' thread.id %}">
+    {% csrf_token %}
+
+    <textarea name="body" rows="6" cols="70"></textarea>
+
+    <br><br>
+
+    <button type="submit">返信する</button>
+
+</form>
+
+{% else %}
+
+<p>
+返信するにはログインしてください。
+</p>
+
+{% endif %}
+
+<hr>
+
+<p>
+<a href="{% url 'posts:board_list' %}">掲示板一覧へ戻る</a>
+</p>
+
+{% endblock %}

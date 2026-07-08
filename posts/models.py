@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from tags.models import Tag
 
 class Post(models.Model):
     user = models.ForeignKey(
@@ -10,6 +10,13 @@ class Post(models.Model):
     )
     title = models.CharField(max_length=200)
     content = models.TextField()
+
+    tags = models.ManyToManyField(
+        Tag,
+        blank=True,
+        related_name="posts"
+
+    )
 
     image = models.ImageField(
         upload_to="posts/",

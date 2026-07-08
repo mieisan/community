@@ -11,5 +11,7 @@ urlpatterns = [
     path("boards/<int:thread_id>/", views.board_detail, name="board_detail"),
     path("boards/<int:thread_id>/reply/", views.reply_create, name="reply_create"),
 
+    path("gallery/", views.gallery, name="gallery"),
+
     path("<int:pk>/", views.post_detail, name="detail"),
 ]

@@ -5,6 +5,7 @@ from .models import Post
 from .forms import PostForm
 from analytics.models import PostView
 from .models import Thread, Reply
+from tags.models import Tag
 
 # Create your views here.
 
@@ -47,27 +48,38 @@ def post_detail(request, pk):
 
     return response
 
+def gallery(request):
+    posts = Post.objects.exclude(image="").order_by("-created_at")
+    return render(request, "posts/gallery.html", {
+        "posts": posts
+    })
+
 @login_required
 def create(request):
-
     if request.method == "POST":
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES)
 
         if form.is_valid():
             post = form.save(commit=False)
             post.user = request.user
             post.save()
 
-            return redirect('/')
+            tag_text = form.cleaned_data.get("tag_names", "")
+            tag_names = [t.strip() for t in tag_text.split(",") if t.strip()]
+
+            for name in tag_names:
+                tag, created = Tag.objects.get_or_create(
+                    name=name,
+                    defaults={"slug": name}
+                )
+                post.tags.add(tag)
+
+            return redirect("/")
 
     else:
         form = PostForm()
 
-    return render(
-        request,
-        'posts/create.html',
-        {'form': form}
-    )
+    return render(request, "posts/create.html", {"form": form})
 
 def board_list(request):
     threads = Thread.objects.all().order_by("-created_at")

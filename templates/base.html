@@ -97,8 +97,8 @@ nav a {
             <a href="{% url 'accounts:login' %}">ログイン</a>
         {% endif %}
 
-        <a href="/bbs/">掲示板</a>
-        <a href="/gallery/">ギャラリー</a>
+        <a href="{% url 'posts:board_list' %}">掲示板</a>
+        <a href="{% url 'posts:gallery' %}">ギャラリー</a>
         <a href="/event/">イベント</a>
         <a href="https://note.com/">note</a>
 

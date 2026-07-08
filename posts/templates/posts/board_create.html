@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}
+スレッド作成
+{% endblock %}
+
+{% block content %}
+
+<h1>スレッドを作成</h1>
+
+<form method="post">
+    {% csrf_token %}
+
+    <p>
+        タイトル<br>
+        <input type="text" name="title" style="width:400px;">
+    </p>
+
+    <p>
+        本文<br>
+        <textarea name="body" rows="10" cols="70"></textarea>
+    </p>
+
+    <button type="submit">投稿する</button>
+</form>
+
+<hr>
+
+<p>
+<a href="{% url 'posts:board_list' %}">掲示板へ戻る</a>
+</p>
+
+{% endblock %}
