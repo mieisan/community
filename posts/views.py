@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Post
 from .forms import PostForm
 from analytics.models import PostView
+from .models import Thread, Reply
 
 # Create your views here.
 
@@ -67,4 +68,52 @@ def create(request):
         'posts/create.html',
         {'form': form}
     )
+
+def board_list(request):
+    threads = Thread.objects.all().order_by("-created_at")
+    return render(request, "posts/board_list.html", {"threads": threads})
+
+
+def board_detail(request, thread_id):
+    thread = get_object_or_404(Thread, id=thread_id)
+    replies = thread.replies.all().order_by("created_at")
+
+    return render(request, "posts/board_detail.html", {
+        "thread": thread,
+        "replies": replies,
+    })
+
+
+@login_required
+def board_create(request):
+    if request.method == "POST":
+        title = request.POST.get("title")
+        body = request.POST.get("body")
+
+        if title and body:
+            Thread.objects.create(
+                user=request.user,
+                title=title,
+                body=body,
+            )
+            return redirect("posts:board_list")
+
+    return render(request, "posts/board_create.html")
+
+
+@login_required
+def reply_create(request, thread_id):
+    thread = get_object_or_404(Thread, id=thread_id)
+
+    if request.method == "POST":
+        body = request.POST.get("body")
+
+        if body:
+            Reply.objects.create(
+                thread=thread,
+                user=request.user,
+                body=body,
+            )
+
+    return redirect("posts:board_detail", thread_id=thread.id)
 
