@@ -1,0 +1,6 @@
+{% load avatar_tags %}
+
+<div class="post-author">
+    <img src="{% avatar_url post.author %}" alt="{{ post.author.username }}" class="author-icon">
+    <span>{{ post.author.username }}</span>
+</div>
