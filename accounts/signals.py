@@ -1,10 +1,10 @@
 from django.dispatch import receiver
-from allauth.socialaccount.signals import social_account_added, social_account_updated
+from django.contrib.auth.signals import user_logged_in
+from allauth.socialaccount.models import SocialAccount
 from .models import Profile
 
 
-def _get_avatar_url(sociallogin):
-    account = sociallogin.account
+def _get_avatar_url(account):
     data = account.extra_data
     provider = account.provider
 
@@ -29,14 +29,16 @@ def _get_avatar_url(sociallogin):
     return ""
 
 
-@receiver(social_account_added)
-@receiver(social_account_updated)
-def save_avatar_url(request, sociallogin, **kwargs):
-    avatar_url = _get_avatar_url(sociallogin)
+@receiver(user_logged_in)
+def save_avatar_url_on_login(request, user, **kwargs):
+    account = SocialAccount.objects.filter(user=user).first()
+    if not account:
+        return
+
+    avatar_url = _get_avatar_url(account)
     if not avatar_url:
         return
 
-    user = sociallogin.user
     profile, _ = Profile.objects.get_or_create(user=user)
     if profile.icon_url != avatar_url:
         profile.icon_url = avatar_url
