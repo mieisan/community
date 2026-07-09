@@ -256,6 +256,8 @@ USE_TZ = True
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
+#MEDIA_ROOT = "/data/media"
+
 STORAGES = {
     "default": {
         "BACKEND": "storages.backends.s3.S3Storage",
@@ -274,7 +276,6 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
-#MEDIA_ROOT = "/data/media"
 
 #STATIC_URL = "/static/"
 #STATIC_ROOT = "/data/static"
