@@ -1,16 +1,21 @@
 from django.db.models import Count
 from posts.models import Post
 
+
 def sidebar(request):
     latest_posts = Post.objects.order_by("-created_at")[:5]
 
     popular_posts = (
         Post.objects
-        .annotate(view_count=Count("views"))
+        .annotate(view_count=Count("views", distinct=True))
         .order_by("-view_count")[:5]
     )
 
-    liked_posts = Post.objects.order_by("-created_at")[:5]  # 仮
+    liked_posts = (
+        Post.objects
+        .annotate(like_count=Count("likes", distinct=True))
+        .order_by("-like_count")[:5]
+    )
 
     return {
         "latest_posts": latest_posts,
