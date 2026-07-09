@@ -1,3 +1,5 @@
+# posts/views.py の該当部分
+from django.utils.text import slugify
 import uuid
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -54,31 +56,26 @@ def gallery(request):
         "posts": posts
     })
 
+
 @login_required
 def create(request):
     if request.method == "POST":
         form = PostForm(request.POST, request.FILES)
-
         if form.is_valid():
             post = form.save(commit=False)
             post.user = request.user
             post.save()
-
             tag_text = form.cleaned_data.get("tag_names", "")
             tag_names = [t.strip() for t in tag_text.split(",") if t.strip()]
-
             for name in tag_names:
                 tag, created = Tag.objects.get_or_create(
                     name=name,
-                    defaults={"slug": name}
+                    defaults={"slug": slugify(name, allow_unicode=True)}
                 )
                 post.tags.add(tag)
-
             return redirect("/")
-
     else:
         form = PostForm()
-
     return render(request, "posts/create.html", {"form": form})
 
 def board_list(request):
