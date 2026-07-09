@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load avatar_tags %}
 
 {% block title %}
 ホーム
@@ -53,20 +53,16 @@
 <p>投稿者：</p>
 
 <div style="display:flex; align-items:center; gap:10px;">
-
-    {% if post.user.profile.icon %}
-        <img
-            src="{{ post.user.profile.icon.url }}"
-            width="40"
-            height="40"
-            style="border-radius:50%; object-fit:cover;">
-    {% endif %}
-
+    <img
+        src="{% avatar_url post.user %}"
+        width="40"
+        height="40"
+        style="border-radius:50%; object-fit:cover;">
     <a href="{% url 'accounts:profile' post.user.username %}">
         {{ post.user.username }}
     </a>
-
 </div>
+
 {% if post.image %}
 <p>
 <img src="{{ post.image.url }}" width="300">
