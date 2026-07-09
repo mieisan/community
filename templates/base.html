@@ -5,53 +5,190 @@
 <meta charset="UTF-8">
 
 <title>
-{% block title %}"界隈のHeaven Potal"{% endblock %}
+{% block title %}界隈のHeaven Portal{% endblock %}
 </title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+
 <style>
-body {
-    font-family: sans-serif;
-    margin: 20px;
+:root {
+    --bg: #F7F5FB;
+    --surface: #FFFFFF;
+    --text: #2B2A33;
+    --text-soft: #726E80;
+    --accent: #5B7FDB;
+    --accent-dark: #4665C4;
+    --halo: #E8B86D;
+    --border: #E7E3F0;
+    --radius: 16px;
+    --shadow: 0 2px 10px rgba(43, 42, 51, 0.05), 0 8px 24px rgba(43, 42, 51, 0.04);
 }
 
+* { box-sizing: border-box; }
+
+body {
+    font-family: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 0;
+    line-height: 1.7;
+}
+
+h1, h2, h3 {
+    font-family: "Shippori Mincho", serif;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+a {
+    color: var(--accent-dark);
+    text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+/* ---------- Nav ---------- */
 nav {
-    padding: 10px;
-    background: #eeeeee;
-    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 14px 24px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
 nav a {
-    margin-right: 15px;
+    color: var(--text);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+nav a:hover { color: var(--accent-dark); text-decoration: none; }
+
+nav form { margin-left: auto; }
+
+nav button {
+    font-family: inherit;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 16px;
+    color: var(--text-soft);
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+}
+nav button:hover {
+    border-color: var(--accent);
+    color: var(--accent-dark);
 }
 
+/* ---------- Layout ---------- */
 .layout {
     display: grid;
-    grid-template-columns: 220px 1fr 280px;
-    gap: 20px;
+    grid-template-columns: 240px 1fr 300px;
+    gap: 24px;
+    max-width: 1200px;
+    margin: 24px auto;
+    padding: 0 20px;
 }
 
 .left-sidebar,
 .right-sidebar {
-    background: #f5f5f5;
-    padding: 15px;
-    border-radius: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px;
+    align-self: start;
+    position: relative;
+    overflow: hidden;
+}
+
+/* soft "halo" accent line along the top of each panel */
+.left-sidebar::before,
+.right-sidebar::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--halo));
+}
+
+.left-sidebar h3,
+.right-sidebar h3 {
+    font-size: 1rem;
+    margin: 4px 0 14px;
+    color: var(--text);
 }
 
 .left-sidebar a,
 .right-sidebar a {
     display: block;
-    margin-bottom: 8px;
+    padding: 6px 0;
+    color: var(--text-soft);
+    font-size: 0.92rem;
+}
+.left-sidebar a:hover,
+.right-sidebar a:hover {
+    color: var(--accent-dark);
     text-decoration: none;
 }
 
-.content {
-    min-width: 0;
+.left-sidebar hr,
+.right-sidebar hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 16px 0;
 }
 
+.content { min-width: 0; }
+
+/* ---------- Auth provider buttons ---------- */
+.auth-providers {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.auth-provider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    color: var(--text) !important;
+    font-size: 0.88rem;
+    font-weight: 500;
+    background: var(--bg);
+    transition: transform 0.12s, box-shadow 0.12s, border-color 0.12s;
+}
+
+.auth-provider:hover {
+    text-decoration: none;
+    border-color: var(--accent);
+    box-shadow: 0 3px 10px rgba(91, 127, 219, 0.15);
+    transform: translateY(-1px);
+}
+
+.auth-provider svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+/* ---------- Posts ---------- */
 .post {
-    border: 1px solid #ccc;
-    padding: 15px;
-    margin: 15px 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px;
+    margin: 18px 0;
 }
 
 @media (max-width: 900px) {
@@ -69,16 +206,12 @@ nav a {
 
     {% if user.is_authenticated %}
         <a href="/posts/create/">投稿する</a>
+        <a href="{% url 'accounts:profile' user.username %}">プロフィール</a>
 
-        <a href="{% url 'accounts:profile' user.username %}">
-            プロフィール
-        </a>
-
-    <form method="post" action="{% url 'accounts:logout' %}" style="display:inline;">
-    {% csrf_token %}
-    <button type="submit">ログアウト</button>
-    </form>
-
+        <form method="post" action="{% url 'accounts:logout' %}">
+            {% csrf_token %}
+            <button type="submit">ログアウト</button>
+        </form>
     {% else %}
         <a href="/accounts/login/">ログイン</a>
         <a href="{% url 'accounts:signup' %}">アカウント作成</a>
@@ -101,16 +234,36 @@ nav a {
         <a href="{% url 'posts:board_list' %}">掲示板</a>
         <a href="{% url 'posts:gallery' %}">ギャラリー</a>
         <a href="{% url 'events:calendar' %}">イベント</a>
-	<a href="https://note.com/">note</a>
+        <a href="https://note.com/">note</a>
 
         <hr>
 
+        <h3>ログイン方法を選択</h3>
+        <div class="auth-providers">
+            <a class="auth-provider" href="/accounts/github/login/">
+                <svg viewBox="0 0 24 24" fill="#181717" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.333-1.754-1.333-1.754-1.089-.744.083-.729.083-.729 1.205.084 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.605-2.665-.303-5.467-1.334-5.467-5.93 0-1.31.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.014 2.898-.014 3.293 0 .322.216.694.825.576C20.565 21.796 24 17.298 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                GitHubでログイン
+            </a>
+            <a class="auth-provider" href="/accounts/google/login/">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#4285F4" d="M23.49 12.27c0-.85-.08-1.67-.22-2.45H12v4.63h6.47a5.54 5.54 0 0 1-2.4 3.63v3h3.88c2.27-2.09 3.54-5.17 3.54-8.81z"/>
+                    <path fill="#34A853" d="M12 24c3.24 0 5.96-1.07 7.95-2.92l-3.88-3c-1.08.72-2.46 1.15-4.07 1.15-3.13 0-5.78-2.11-6.73-4.96H1.26v3.11A12 12 0 0 0 12 24z"/>
+                    <path fill="#FBBC05" d="M5.27 14.27a7.2 7.2 0 0 1 0-4.54V6.62H1.26a12 12 0 0 0 0 10.76l4.01-3.11z"/>
+                    <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.44-3.44C17.95 1.19 15.24 0 12 0A12 12 0 0 0 1.26 6.62l4.01 3.11C6.22 6.86 8.87 4.75 12 4.75z"/>
+                </svg>
+                Googleでログイン
+            </a>
+            <a class="auth-provider" href="/accounts/discord/login/">
+                <svg viewBox="0 0 24 24" fill="#5865F2" xmlns="http://www.w3.org/2000/svg"><path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.865-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.319 13.58.099 18.058a.082.082 0 0 0 .031.056 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .079.01c.12.099.245.198.373.292a.077.077 0 0 1-.006.128 12.3 12.3 0 0 1-1.873.891.076.076 0 0 0-.04.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.086-2.157-2.42 0-1.333.956-2.42 2.157-2.42 1.211 0 2.176 1.096 2.157 2.42 0 1.334-.956 2.42-2.157 2.42zm7.975 0c-1.183 0-2.157-1.086-2.157-2.42 0-1.333.955-2.42 2.157-2.42 1.211 0 2.176 1.096 2.157 2.42 0 1.334-.946 2.42-2.157 2.42z"/></svg>
+                Discordでログイン
+            </a>
+            <a class="auth-provider" href="/accounts/twitter_oauth2/login/">
+                <svg viewBox="0 0 24 24" fill="#000000" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                X（旧Twitter）でログイン
+            </a>
+        </div>
+    </aside>
 
-        <a href="/accounts/github/login/">GitHub</a>
-        <a href="/accounts/google/login/">Google</a>
-        <a href="/accounts/discord/login/">Discord</a>
-        <a href="/accounts/twitter_oauth2/login/">X</a>
-  </aside>
     <main class="content">
         {% block content %}
         {% endblock %}
@@ -119,9 +272,7 @@ nav a {
     <aside class="right-sidebar">
         <h3>新着記事</h3>
         {% for post in latest_posts %}
-            <a href="{% url 'posts:detail' post.id %}">
-                {{ post.title }}
-            </a>
+            <a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a>
         {% empty %}
             <p>まだ投稿がありません</p>
         {% endfor %}
@@ -130,9 +281,7 @@ nav a {
 
         <h3>アクセス数順</h3>
         {% for post in popular_posts %}
-            <a href="{% url 'posts:detail' post.id %}">
-            {{ post.title }}（{{ post.view_count }}）
-            </a>
+            <a href="{% url 'posts:detail' post.id %}">{{ post.title }}（{{ post.view_count }}）</a>
         {% empty %}
             <p>まだありません</p>
         {% endfor %}
@@ -141,9 +290,7 @@ nav a {
 
         <h3>いいね順</h3>
         {% for post in liked_posts %}
-            <a href="{% url 'posts:detail' post.id %}">
-                {{ post.title }}（{{ post.like_count }}）
-            </a>
+            <a href="{% url 'posts:detail' post.id %}">{{ post.title }}（{{ post.like_count }}）</a>
         {% empty %}
             <p>まだありません</p>
         {% endfor %}
@@ -153,3 +300,4 @@ nav a {
 
 </body>
 </html>
+
