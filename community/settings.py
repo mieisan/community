@@ -10,7 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 import logging
+from pathlib import Path
+import os
+from dotenv import load_dotenv
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(BASE_DIR / ".env")
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -162,6 +168,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://192.168.11.18",
+    "https://192.168.11.20",
+    "https://tokeisanheaven.ddns.net/",
 ]
 
 SECURE_PROXY_SSL_HEADER = (
