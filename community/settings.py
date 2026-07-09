@@ -49,7 +49,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-q3tdko+9l&cqec-@j25lukdwx=%g0c86h+k)5w$+096ptre4&l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
+
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = [
     '192.168.11.18',
@@ -59,7 +61,7 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "192.168.11.20",
     "tokeisanheaven.ddns.net",
-    "*"
+    ".onrender.com",
 ]
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
@@ -104,6 +106,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 
@@ -138,16 +142,27 @@ WSGI_APPLICATION = 'community.wsgi.application'
 #    }
 #}
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': 'community',
+#        'USER': 'hori',
+#        'PASSWORD': os.environ["DB_PASSWORD"],
+#        'HOST': 'localhost',
+#        'PORT': '5432',
+#    }
+#}
+
+
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'community',
-        'USER': 'hori',
-        'PASSWORD': os.environ["DB_PASSWORD"],
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    "default": dj_database_url.config(
+        default="sqlite:///db.sqlite3"
+    )
 }
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
@@ -192,10 +207,21 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = "/data/media"
+#MEDIA_ROOT = "/data/media"
 
-STATIC_URL = "/static/"
-STATIC_ROOT = "/data/static"
+#STATIC_URL = "/static/"
+#STATIC_ROOT = "/data/static"
+
+STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+STATICFILES_STORAGE = (
+    "whitenoise.storage.CompressedManifestStaticFilesStorage"
+)
+import os
+
+SECRET_KEY = os.environ["SECRET_KEY"]
+
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
