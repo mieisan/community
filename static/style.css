@@ -1,0 +1,46 @@
+
+/* スマホ対応 */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    max-width: 960px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 12px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+input,
+textarea,
+select,
+button {
+    max-width: 100%;
+    font-size: 16px;
+}
+
+textarea {
+    width: 100%;
+}
+
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+@media screen and (max-width: 600px) {
+    body {
+        padding: 8px;
+        font-size: 16px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+}
