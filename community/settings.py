@@ -256,7 +256,6 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 #MEDIA_ROOT = "/data/media"
 
-AWS_S3_URL_PROTOCOL = "https:"
 
 STORAGES = {
     "default": {
