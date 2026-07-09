@@ -130,6 +130,7 @@ SOCIALACCOUNT_PROVIDERS = {
             {
                 "client_id": os.environ.get("DISCORD_CLIENT_ID"),
                 "secret": os.environ.get("DISCORD_CLIENT_SECRET"),
+                "key": "",
             }
         ]
     },
@@ -138,6 +139,7 @@ SOCIALACCOUNT_PROVIDERS = {
             {
                 "client_id": os.environ.get("GITHUB_CLIENT_ID"),
                 "secret": os.environ.get("GITHUB_CLIENT_SECRET"),
+                "key": "",
             }
         ]
     },
@@ -146,6 +148,7 @@ SOCIALACCOUNT_PROVIDERS = {
             {
                 "client_id": os.environ.get("GOOGLE_CLIENT_ID"),
                 "secret": os.environ.get("GOOGLE_CLIENT_SECRET"),
+                "key": "",
             }
         ]
     },
@@ -154,6 +157,7 @@ SOCIALACCOUNT_PROVIDERS = {
             {
                 "client_id": os.environ.get("TWITTER_CLIENT_ID"),
                 "secret": os.environ.get("TWITTER_CLIENT_SECRET"),
+                "key": "",
             }
         ]
     },
