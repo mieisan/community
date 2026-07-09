@@ -267,7 +267,7 @@ STORAGES = {
             "region_name": os.environ.get("SUPABASE_REGION", "ap-northeast-1"),
             "addressing_style": "path",
             "querystring_auth": False,
-            "file_overwrite": False,
+            "file_overwrite": True,
             "custom_domain": "mbaidjvectlshqqbrfjp.storage.supabase.co/storage/v1/object/public/media",
         },
     },
