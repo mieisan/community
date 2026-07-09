@@ -99,7 +99,10 @@ AUTHENTICATION_BACKENDS = [
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
-SECRET_KEY = os.environ.get("SECRET_KEY", "local-dev-secret-key")
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY",
+    "django-insecure-local-development-only"
+)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
