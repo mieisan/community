@@ -9,9 +9,11 @@
 <h1>{{ profile_user.username }}</h1>
 
 {% if profile.icon %}
-<img src="{{ profile.icon.url }}" width="150">
+    <img src="{{ profile.icon.url }}" width="150">
+{% elif profile.icon_url %}
+    <img src="{{ profile.icon_url }}" width="150">
 {% else %}
-<p>アイコン未設定</p>
+    <p>アイコン未設定</p>
 {% endif %}
 
 {% if request.user == profile_user %}
