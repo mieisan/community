@@ -82,7 +82,6 @@ INSTALLED_APPS = [
     'users',
     'analytics',
     'tags',
-    "django.contrib.sites",
 
     "allauth",
     "allauth.account",
@@ -91,6 +90,9 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.twitter",
     "cloudinary",
     "cloudinary_storage",
+    "django.contrib.sites",
+
+    "allauth.socialaccount.providers.github",
 ]
 SITE_ID = 1
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
