@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}{{ event.title }}{% endblock %}
+{% block content %}
+<nav>
+    <a href="{% url 'events:calendar' %}">カレンダーに戻る</a>
+    |　<a href="{% url 'events:list' %}">一覧に戻る</a>
+</nav>
+<hr>
+
+<h1>{{ event.title }}</h1>
+<p>日時：{{ event.start_datetime }}{% if event.end_datetime %} ? {{ event.end_datetime }}{% endif %}</p>
+{% if event.location %}<p>開催場所：{{ event.location }}</p>{% endif %}
+{% if event.fee %}<p>参加費：{{ event.fee }}</p>{% endif %}
+{% if event.capacity %}<p>定員：{{ event.capacity }}人</p>{% endif %}
+<p>{{ event.description|linebreaksbr }}</p>
+<p>投稿者：{{ event.created_by.username }}</p>
+<p>投稿日：{{ event.created_at }}</p>
+{% endblock %}

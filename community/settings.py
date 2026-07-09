@@ -80,7 +80,7 @@ INSTALLED_APPS = [
     'likes',
     'analytics',
     'tags',
-
+    'events',
     "allauth",
     "allauth.account",
     "allauth.socialaccount",

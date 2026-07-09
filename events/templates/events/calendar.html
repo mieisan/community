@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}イベントカレンダー{% endblock %}
+{% block content %}
+<h1>イベントカレンダー</h1>
+
+<nav>
+    <a href="{% url 'events:calendar' %}?year={{ prev_year }}&month={{ prev_month }}">← 前月</a>
+    　{{ year }}年{{ month }}月　
+    <a href="{% url 'events:calendar' %}?year={{ next_year }}&month={{ next_month }}">翌月 →</a>
+    　|　
+    <a href="{% url 'events:list' %}">一覧表示</a>
+    {% if user.is_authenticated %}
+        |　<a href="{% url 'events:create' %}">イベントを登録する</a>
+    {% endif %}
+</nav>
+<hr>
+
+<table style="width:100%; border-collapse: collapse; table-layout: fixed;">
+    <thead>
+        <tr>
+            <th style="color:red;">日</th>
+            <th>月</th>
+            <th>火</th>
+            <th>水</th>
+            <th>木</th>
+            <th>金</th>
+            <th style="color:blue;">土</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for week in weeks %}
+        <tr>
+            {% for day in week %}
+            <td style="vertical-align:top; border:1px solid #ccc; height:100px; padding:4px;
+                       {% if not day.in_month %}background:#f5f5f5; color:#bbb;{% endif %}
+                       {% if day.is_today %}background:#fffae0;{% endif %}">
+                <div>{{ day.date.day }}</div>
+                {% for event in day.events %}
+                    <div style="font-size:12px; margin-top:2px;">
+                        <a href="{% url 'events:detail' event.pk %}">{{ event.title }}</a>
+                    </div>
+                {% endfor %}
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

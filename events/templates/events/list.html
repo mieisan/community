@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}イベント一覧{% endblock %}
+{% block content %}
+<h1>イベント告知一覧</h1>
+
+<nav>
+    <a href="{% url 'events:calendar' %}">カレンダー表示</a>
+    {% if user.is_authenticated %}
+        |　<a href="{% url 'events:create' %}">イベントを登録する</a>
+    {% endif %}
+</nav>
+<hr>
+
+{% for event in events %}
+<div style="border:1px solid #ccc; padding:15px; margin-bottom:15px; border-radius:10px;">
+    <h2><a href="{% url 'events:detail' event.pk %}">{{ event.title }}</a></h2>
+    <p>日時：{{ event.start_datetime }}{% if event.end_datetime %} ? {{ event.end_datetime }}{% endif %}</p>
+    {% if event.location %}<p>場所：{{ event.location }}</p>{% endif %}
+    {% if event.fee %}<p>参加費：{{ event.fee }}</p>{% endif %}
+    {% if event.capacity %}<p>定員：{{ event.capacity }}人</p>{% endif %}
+    <p>{{ event.description|truncatechars:80 }}</p>
+    <p>投稿者：{{ event.created_by.username }}</p>
+</div>
+{% empty %}
+<p>イベントはまだありません</p>
+{% endfor %}
+{% endblock %}
