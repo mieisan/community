@@ -122,6 +122,43 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
+import os
+
+SOCIALACCOUNT_PROVIDERS = {
+    "discord": {
+        "APPS": [
+            {
+                "client_id": os.environ.get("DISCORD_CLIENT_ID"),
+                "secret": os.environ.get("DISCORD_CLIENT_SECRET"),
+            }
+        ]
+    },
+    "github": {
+        "APPS": [
+            {
+                "client_id": os.environ.get("GITHUB_CLIENT_ID"),
+                "secret": os.environ.get("GITHUB_CLIENT_SECRET"),
+            }
+        ]
+    },
+    "google": {
+        "APPS": [
+            {
+                "client_id": os.environ.get("GOOGLE_CLIENT_ID"),
+                "secret": os.environ.get("GOOGLE_CLIENT_SECRET"),
+            }
+        ]
+    },
+    "twitter_oauth2": {
+        "APPS": [
+            {
+                "client_id": os.environ.get("TWITTER_CLIENT_ID"),
+                "secret": os.environ.get("TWITTER_CLIENT_SECRET"),
+            }
+        ]
+    },
+}
+
 
 ROOT_URLCONF = 'community.urls'
 
