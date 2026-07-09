@@ -86,9 +86,7 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-
-    "cloudinary",
-    "cloudinary_storage",
+    "storages",
     "django.contrib.sites",
 
     "allauth.socialaccount.providers.github",
@@ -260,13 +258,22 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 STORAGES = {
     "default": {
-        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "access_key": os.environ.get("SUPABASE_ACCESS_KEY_ID"),
+            "secret_key": os.environ.get("SUPABASE_SECRET_ACCESS_KEY"),
+            "bucket_name": os.environ.get("SUPABASE_STORAGE_BUCKET"),
+            "endpoint_url": os.environ.get("SUPABASE_S3_ENDPOINT_URL"),
+            "region_name": os.environ.get("SUPABASE_REGION", "ap-northeast-1"),
+            "addressing_style": "path",
+            "querystring_auth": False,
+            "file_overwrite": False,
+        },
     },
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
-
 #MEDIA_ROOT = "/data/media"
 
 #STATIC_URL = "/static/"
