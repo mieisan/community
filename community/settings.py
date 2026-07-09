@@ -89,13 +89,17 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
 
     "allauth.socialaccount.providers.twitter",
+    "cloudinary",
+    "cloudinary_storage",
 ]
 SITE_ID = 1
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
+SECRET_KEY = os.environ.get("SECRET_KEY", "local-dev-secret-key")
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

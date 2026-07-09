@@ -19,6 +19,7 @@ urlpatterns = [
     path("tags/", include("tags.urls")),
 
     path("", post_views.index, name="home"),
+]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-]
+
