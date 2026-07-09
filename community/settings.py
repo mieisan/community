@@ -87,13 +87,16 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
 
-    "allauth.socialaccount.providers.twitter",
     "cloudinary",
     "cloudinary_storage",
     "django.contrib.sites",
 
     "allauth.socialaccount.providers.github",
+    "allauth.socialaccount.providers.google",
+    "allauth.socialaccount.providers.discord",
+    "allauth.socialaccount.providers.twitter_oauth2",
 ]
+
 SITE_ID = 1
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 AUTHENTICATION_BACKENDS = [
