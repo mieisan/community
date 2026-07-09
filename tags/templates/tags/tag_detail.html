@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load avatar_tags %}
+
+{% block title %}#{{ tag.name }}{% endblock %}
+
+{% block content %}
+
+<h1>#{{ tag.name }}</h1>
+
+<hr>
+
+{% for post in posts %}
+<div class="post">
+    <h2><a href="{% url 'posts:detail' post.pk %}">{{ post.title }}</a></h2>
+
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+        <img src="{% avatar_url post.user %}" width="32" height="32" style="border-radius:50%; object-fit:cover;">
+        <a href="{% url 'accounts:profile' post.user.username %}">{{ post.user.username }}</a>
+    </div>
+
+    {% if post.image %}
+    <img src="{{ post.image.url }}" width="250" style="border-radius:10px;">
+    {% endif %}
+
+    <p>{{ post.content }}</p>
+</div>
+{% empty %}
+<p>このタグの投稿はまだありません</p>
+{% endfor %}
+
+{% endblock %}
