@@ -9,7 +9,27 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
+import logging
 
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "loggers": {
+        "allauth": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+        },
+        "django": {
+            "handlers": ["console"],
+            "level": "ERROR",
+        },
+    },
+}
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -31,8 +51,12 @@ ALLOWED_HOSTS = [
     "192.168.11.15",
     "localhost",
     "127.0.0.1",
+    "192.168.11.20",
+    "tokeisanheaven.ddns.net",
+    "*"
 ]
 
+SOCIALACCOUNT_LOGIN_ON_GET = True
 
 # Application definition
 
@@ -49,9 +73,20 @@ INSTALLED_APPS = [
     'likes',
     'users',
     'analytics',
-    'tags'
-]
+    'tags',
+    "django.contrib.sites",
 
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+
+    "allauth.socialaccount.providers.twitter",
+]
+SITE_ID = 1
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
 
 
 MIDDLEWARE = [
@@ -62,7 +97,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
+
 
 ROOT_URLCONF = 'community.urls'
 
@@ -100,7 +137,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'community',
         'USER': 'hori',
-        'PASSWORD': 'hori1993',
+        'PASSWORD': os.environ["DB_PASSWORD"],
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -143,7 +180,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
@@ -155,3 +191,6 @@ STATIC_ROOT = "/data/static"
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+
+
