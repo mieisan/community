@@ -1,6 +1,12 @@
+import uuid
 from django.db import models
 from django.contrib.auth.models import User
 from tags.models import Tag
+
+def post_image_upload_path(instance, filename):
+    ext = filename.rsplit(".", 1)[-1].lower() if "." in filename else "jpg"
+    return f"posts/{uuid.uuid4().hex}.{ext}"
+
 
 class Post(models.Model):
     user = models.ForeignKey(
@@ -19,7 +25,7 @@ class Post(models.Model):
     )
 
     image = models.ImageField(
-        upload_to="posts/",
+        upload_to=post_image_upload_path,
         null=True,
         blank=True
     )
