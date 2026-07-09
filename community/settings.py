@@ -256,6 +256,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 #MEDIA_ROOT = "/data/media"
 
+AWS_S3_URL_PROTOCOL = "https:"
 
 STORAGES = {
     "default": {
@@ -269,7 +270,7 @@ STORAGES = {
             "addressing_style": "path",
             "querystring_auth": False,
             "file_overwrite": False,
-            "custom_domain": "mbaidjvectlshqqbrfjp.storage.supabase.co/storage/v1/object/public/media",
+            "custom_domain": "https://mbaidjvectlshqqbrfjp.storage.supabase.co/storage/v1/object/public/media",
         },
     },
     "staticfiles": {
